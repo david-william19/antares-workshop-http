@@ -1,0 +1,161 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+ require("dotenv").config();
+ var app = require("../app");
+ var debug = require("debug")("antares-workshop:server");
+ var http = require("http");
+ var mqtt = require("mqtt");
+ /**
+  * Get port from environment and store in Express.
+  */
+ 
+ var port = normalizePort(process.env.PORT || "3000");
+ app.set("port", port);
+ 
+ /**
+  * Create HTTP server.
+  */
+ 
+ var server = http.createServer(app);
+ var io = require("socket.io")(server, { origins: "*:*" });
+ /**
+  * Listen on provided port, on all network interfaces.
+  */
+ 
+ server.listen(port);
+ server.on("error", onError);
+ server.on("listening", onListening);
+ 
+ /** MQTT Configuration */
+ 
+ /* Subscribe/Response Topic */
+ const topic = `/oneM2M/resp/antares-cse/${process.env.accessKey}/json`;
+ const HOST_BROKER = "mqtt://mqtt.antares.id";
+ const PORT_BROKER = 1883;
+ 
+ const mqttOptions = {
+   clientId: "antares-workshop",
+   port: PORT_BROKER,
+   keepalive: 60,
+   qos: 1,
+ };
+ 
+ var client = mqtt.connect(HOST_BROKER, mqttOptions);
+ client.on("connect", mqtt_connect);
+ client.on("message", mqtt_messsageReceived);
+ 
+ /**
+  * Normalize a port into a number, string, or false.
+  */
+ function mqtt_connect() {
+   console.log("Connecting MQTT");
+   client.subscribe(topic, mqtt_subscribe);
+   //client.end();
+ }
+ 
+ function mqtt_subscribe(err, granted) {
+   console.log("Subscribed to " + topic);
+   if (err) {
+     console.log(err);
+   }
+ }
+ 
+ function mqtt_messsageReceived(topic, message, packet) {
+   if (isValidJSON(message)) {
+     console.log("Valid Json");
+     var messageparse = JSON.parse(message);
+     messageparse.topic = topic;
+     var parsedmessage = JSON.parse(message);
+     console.log(parsedmessage);
+     if (parsedmessage["m2m:rsp"].rsc === 2001) {
+       if (parsedmessage && parsedmessage["m2m:rsp"].pc["m2m:cin"]) {
+         console.log("parsedmessage goal");
+         io.to("antares").emit("packet", parsedmessage);
+       }
+     } else {
+       console.log("not rsc 2001", parsedmessage);
+     }
+   } else {
+     console.log("NOT JSON");
+     var messageparse = message;
+     messageparse.topic = topic;
+   }
+ 
+   io.to("antares").emit("packet", messageparse);
+ 
+   function isValidJSON(text) {
+     try {
+       JSON.parse(text);
+       return true;
+     } catch (error) {
+       return false;
+     }
+   }
+ }
+ 
+ io.on("connection", function (socket) {
+   var room = socket.handshake["query"]["dashboard"];
+   socket.join(room);
+   console.log(`New WebSocket Connection : ${socket.id}.Joined to : ${room}`);
+ 
+   socket.on("disconnect", function () {
+     socket.leave(room);
+     console.log(
+       `Websocket ID : ${socket.id} is disconnect. Leaving room : ${room}`
+     );
+   });
+ });
+ 
+ function normalizePort(val) {
+   var port = parseInt(val, 10);
+ 
+   if (isNaN(port)) {
+     // named pipe
+     return val;
+   }
+ 
+   if (port >= 0) {
+     // port number
+     return port;
+   }
+ 
+   return false;
+ }
+ 
+ /**
+  * Event listener for HTTP server "error" event.
+  */
+ 
+ function onError(error) {
+   if (error.syscall !== "listen") {
+     throw error;
+   }
+ 
+   var bind = typeof port === "string" ? "Pipe " + port : "Port " + port;
+ 
+   // handle specific listen errors with friendly messages
+   switch (error.code) {
+     case "EACCES":
+       console.error(bind + " requires elevated privileges");
+       process.exit(1);
+     case "EADDRINUSE":
+       console.error(bind + " is already in use");
+       process.exit(1);
+     default:
+       throw error;
+   }
+ }
+ 
+ /**
+  * Event listener for HTTP server "listening" event.
+  */
+ 
+ function onListening() {
+   var addr = server.address();
+   var bind = typeof addr === "string" ? "pipe " + addr : "port " + addr.port;
+   debug("Listening on " + bind);
+ }
+ 

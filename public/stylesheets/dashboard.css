@@ -1,0 +1,150 @@
+* {
+    padding: 0;
+    margin: 0;
+    font-family: 'Poppins', 'Times New Roman';
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 100px;
+    align-items: center;
+}
+
+.title-app {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 30px;
+}
+
+.container-grid {
+    display: grid;
+    gap: 77px;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    padding: 0 100px;
+}
+
+.box {
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.temperature {
+    padding: 70px;
+    grid-row-start: 1;
+    grid-row-end: 3;
+    grid-column-start: 1;
+    grid-column-end: 3;
+    background-color: #FF934F;
+    color: white;
+}
+
+.value-temperature {
+    font-style: normal;
+    font-weight: 800;
+    font-size: 150px;
+    margin: 30px 0;
+}
+
+.title-temperature {
+    font-weight: 700;
+    font-size: 45px;
+    line-height: 68px;
+}
+
+.accelerator {
+    background-color: #007CBE;
+    color: white;
+    padding: 20px 0 ;
+}
+
+.body-accelerator {
+    margin: 25px 0;
+}
+
+.value-accelerator {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 25px;
+}
+
+.title-accelerator {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 25px;
+}
+
+.pressure {
+    background-color: #FFD166;
+    color: white;
+    padding: 20px 0;
+}
+
+.value-pressure {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 50px;
+}
+
+.title-pressure {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 25px;
+}
+
+.humidity {
+    background-color: #26547C;
+    color: white;
+    padding: 20px 0;
+}
+
+.value-humidity {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 50px;
+}
+
+.title-humidity {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 25px;
+}
+
+.smart-switch {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #06D6A0;
+    grid-column-start: 3;
+    grid-column-end: 5;
+}
+
+.button-switch {
+    background-color: #fff;
+    border: 0;
+    border-radius: 10%;
+    font-size: 25px;
+    padding: 30px;
+
+}
+
+.title-switch {
+    color: white;
+    margin-top: 35px;
+    font-size: 30px;
+}
+
+.nyala {
+    background-color: #06D6A0;
+    color: #06D6A0;
+}
+
+.mati {
+    background-color: #EF476F;
+    color: #EF476F;
+}
