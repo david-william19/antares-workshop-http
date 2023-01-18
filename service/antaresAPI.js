@@ -71,16 +71,6 @@ const getDetailDataAntaresByUril = async (uril) => {
 const postData = async (data) => {
   try {
     // ketik disini (hapus terlebih dahulu komen ini)
-    const url = `https://platform.antares.id:8443/~/antares-cse/antares-id/${process.env.applicationName}/${process.env.deviceName}`;
-    const result = await axios.post(url, data, {
-      headers: {
-        "X-M2M-Origin": process.env.accessKey,
-        Accept: "application/json",
-        "Content-Type": "application/json;ty=4",
-      },
-    });
-
-    return result;
   } catch (e) {
     return e;
   }
