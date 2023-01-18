@@ -1,7 +1,20 @@
 const axios = require("axios");
 
 const getLatestData = async () => {
-  // isi fungsi getLatestData dibawah
+  try {
+    const url = `https://platform.antares.id:8443/~/antares-cse/antares-id/${process.env.applicationName}/${process.env.deviceName}/la`;
+    const result = await axios.get(url, {
+      headers: {
+        "X-M2M-Origin": process.env.accessKey,
+        Accept: "application/json",
+        "Content-Type": "application/json;ty=4",
+      },
+    });
+    return result.data;
+  } catch (e) {
+    console.log(e)
+    throw new Error("Error");
+  }
 };
 
 const getDataAntaresID = async () => {
@@ -57,7 +70,8 @@ const getDetailDataAntaresByUril = async (uril) => {
 
 const postData = async (data) => {
   try {
-    const url = `https://platform.antares.id:8443/~/antares-cse/antares-id/${process.env.applicationName}/${process.env.deviceNameBuzzer}`;
+    // ketik disini (hapus terlebih dahulu komen ini)
+    const url = `https://platform.antares.id:8443/~/antares-cse/antares-id/${process.env.applicationName}/${process.env.deviceName}`;
     const result = await axios.post(url, data, {
       headers: {
         "X-M2M-Origin": process.env.accessKey,

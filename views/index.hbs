@@ -9,7 +9,7 @@
     <h1 class="title-app">Antares Workshop</h1>
   </header>
   <div class="container-grid">
-    {{! pressure }}
+    {{! temperature }}
     <div class="box temperature">
       <img
         alt="temperature"
@@ -21,13 +21,24 @@
       <h3 class="value-temperature" id="temperature">{{temperature}} c</h3>
       <h4 class="title-temperature">temperature</h4>
     </div>
-    {{! isi temperature html dibawah ini }}
+    {{! pressure }}
+    <div class="box pressure">
+      <img
+        alt="pressure"
+        src="/images/object.svg"
+        class="icons"
+        width="75"
+        height="75"
+      />
+      <h3 class="value-pressure" id="pressure">{{pressure}}</h3>
+      <h4 class="title-pressure">Pressure</h4>
+    </div>
     
     {{! humidity }}
     <div class="box humidity">
       <img
         alt="humidity"
-        src="/images/object.svg"
+        src="/images/humidity.svg"
         class="icons"
         width="75"
         height="75"
@@ -76,8 +87,17 @@
 
 <script type="text/javascript">
   var socket = io({ query: 'dashboard=antares' }); 
-  //isi updateContent function dibawah ini
-  
+  const updateContent = (pressure, humidity, temperature) => { 
+    console.log("hasil update", pressure)
+  document.getElementById("pressure").innerHTML = `${pressure ?? 0} p`
+  document.getElementById("humidity").innerHTML = `${humidity ?? '-'}`
+  document.getElementById("temperature").innerHTML = `${temperature ?? 'c'}`
+  } 
+
+  setTimeout(() => {
+    location.reload(1)
+  }, 10000)
+
   socket.on('packet',
   function (data) { 
     console.log('data socket', data) 

@@ -4,8 +4,14 @@ const antaresApi = require("../service/antaresAPI");
 /* GET home page. */
 router.get("/", async function (req, res, next) {
   let status = "mati";
+  // get data
+  const data = await antaresApi.getLatestData();
+  // parse data disini
+  let temperature = antaresData.temp ?? 0
+  let humidity = antaresData.hum ?? 0
+  
 
-  res.render("index", { status });
+  res.render("index", { status, temperature, humidity });
 });
 
 /* POST DATA */
