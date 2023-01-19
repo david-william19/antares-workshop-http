@@ -60,7 +60,7 @@
   const button = document.getElementById('switch'); 
   const card = document.getElementById('card') 
   const onClick = () => { 
-    let status = (button.getAttribute('data-status') === "nyala") ? "mati" : "nyala"
+    let status = (button.getAttribute('data-status') === "nyala") ? "mati" : 'nyala'
   if(card.classList.contains('mati')){ 
     card.classList.remove('mati')
   card.classList.add(status) 
@@ -74,7 +74,7 @@
   button.setAttribute("data-status", "mati") 
   } 
   let body = { 
-    data: status
+    status: status == 'nyala' ? 1 : 0
   } 
   fetch(`/postData`, { method: "POST", headers: { 'Content-Type':
   'application/json', }, 
@@ -93,10 +93,6 @@
   document.getElementById("humidity").innerHTML = `${humidity ?? '-'}`
   document.getElementById("temperature").innerHTML = `${temperature ?? 'c'}`
   } 
-
-  setTimeout(() => {
-    location.reload(1)
-  }, 10000)
 
   socket.on('packet',
   function (data) { 

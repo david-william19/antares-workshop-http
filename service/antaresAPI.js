@@ -71,6 +71,8 @@ const getDetailDataAntaresByUril = async (uril) => {
 const postData = async (data) => {
   try {
     // ketik disini (hapus terlebih dahulu komen ini)
+
+    return result;
   } catch (e) {
     return e;
   }
