@@ -7,8 +7,8 @@ router.get("/", async function (req, res, next) {
   // get data
   const data = await antaresApi.getLatestData();
   // parse data disini
-  let temperature = antaresData.temp ?? 0
-  let humidity = antaresData.hum ?? 0
+  let temperature = antaresData.temperature ?? 0
+  let humidity = antaresData.humidity ?? 0
   
 
   res.render("index", { status, temperature, humidity });
