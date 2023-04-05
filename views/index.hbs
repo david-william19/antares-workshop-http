@@ -98,13 +98,17 @@
   function (data) { 
     console.log('data socket', data) 
     if (data.topic !== null) {
-  const dataCin = data['m2m:rsp'].pc['m2m:cin'] 
-  const dataCon = JSON.parse(dataCin.con) 
-  let status; 
-  let humidity = "-"; 
-  let temperature = "-"; 
-  pressure = dataCon.pressure 
-  humidity = dataCon.hum 
-  temperature = dataCon.temp
-  updateContent(pressure, humidity, temperature) } })
+        const dataCin = data['m2m:rsp'].pc['m2m:cin'] 
+        const dataCon = JSON.parse(dataCin.con) 
+        let status; 
+        let humidity = "-"; 
+        let temperature = "-"; 
+        console.log(dataCon)
+        pressure = dataCon.pressure 
+        humidity = dataCon.humidity 
+        temperature = dataCon.temperature
+        updateContent(pressure, humidity, temperature) 
+        } 
+        }
+        )
 </script>
