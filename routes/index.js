@@ -7,6 +7,7 @@ router.get("/", async function (req, res, next) {
   // get data
   const data = await antaresApi.getLatestData();
   // parse data disini
+  const antaresData = JSON.parse(data["m2m:cin"].con)
   let temperature = antaresData.temperature ?? 0
   let humidity = antaresData.humidity ?? 0
   
